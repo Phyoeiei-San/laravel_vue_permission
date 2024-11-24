@@ -75,7 +75,7 @@ export default {
         this.password = '';
 
         // Redirect to the dashboard page
-        this.$router.push("/dashboard");
+        this.$router.push("/userlist");
       } catch (error) {
         console.error("Login failed:", error);
         alert("Login failed. Please check your credentials.");

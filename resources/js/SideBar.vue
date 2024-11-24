@@ -6,60 +6,67 @@
         class="sidebar bg-primary text-light vh-100 shadow-sm"
         style="min-width: 250px;"
       >
+
         <ul class="nav flex-column pt-3" id="sidebar-nav">
           <!-- Dashboard -->
           <li class="nav-item">
-            <router-link class="nav-link text-light" to="/dashboard">
-              <i class="bi bi-grid me-2"></i> Dashboard
-            </router-link>
-          </li>
-
-          <!-- Components -->
-          <li class="nav-item">
-            <a
-              class="nav-link text-light collapsed"
-              data-bs-toggle="collapse"
-              href="#components-nav"
-              role="button"
-              aria-expanded="false"
-              aria-controls="components-nav"
+  <!-- Dropdown Menu for User Lists -->
+            <router-link
+            class="nav-link collapsed d-flex align-items-center"
+            data-bs-target="#userListsNav"
+            data-bs-toggle="collapse"
+            to="#"
             >
-              <i class="bi bi-menu-button-wide me-2"></i> Components
-              <i class="bi bi-chevron-down float-end"></i>
-            </a>
-            <!-- <div class="collapse" id="components-nav">
-              <ul class="nav flex-column ms-3">
-                <li>
-                  <a class="nav-link text-light" href="components-alerts.html">
-                    <i class="bi bi-circle me-2"></i>Alerts
-                  </a>
-                </li>
-                <li>
-                  <a class="nav-link text-light" href="components-accordion.html">
-                    <i class="bi bi-circle me-2"></i>Accordion
-                  </a>
-                </li>
-                <li>
-                  <a class="nav-link text-light" href="components-badges.html">
-                    <i class="bi bi-circle me-2"></i>Badges
-                  </a>
-                </li>
-              </ul>
-            </div> -->
-          </li>
-
-          <!-- More sections here... -->
-
-          <!-- Pages -->
-          <li class="nav-heading mt-3 px-3 text-light fw-bold">Pages</li>
-          <!-- <li class="nav-item">
-
-
-            <router-link class="nav-link text-light" to="/register">
-              <i class="bi bi-person me-2"></i> Register
+            <i class="bi bi-grid me-2" style="color: white;"></i>
+            <span class="text-white">Staff Lists</span><i class="bi bi-chevron-down ms-auto" style="color: white;"></i>
             </router-link>
 
-          </li> -->
+  <!-- Collapsed Menu for User Lists -->
+        <ul id="userListsNav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+        <li>
+        <router-link class="nav-link" to="/userlist">
+        <i class="bi bi-person-plus-fill me-2" style="color: white;"></i><span class="text-white">View Staff Lists</span>
+        </router-link>
+        </li>
+        <li>
+        <router-link class="nav-link" to="/createuser">
+        <i class="bi bi-person-plus-fill me-2" style="color: white;"></i><span class="text-white">Create Staff</span>
+        </router-link>
+        </li>
+    <!-- Add more user-related items here -->
+        </ul>
+    </li>
+
+    <li class="nav-item">
+  <!-- Dropdown Menu for User Lists -->
+            <router-link
+            class="nav-link collapsed d-flex align-items-center"
+            data-bs-target="#roleListNav"
+            data-bs-toggle="collapse"
+            to=""
+            >
+            <i class="bi bi-menu-button-wide me-2"  style="color: white;"></i>
+            <span class="text-white">Role Lists</span><i class="bi bi-chevron-down ms-auto" style="color: white;"></i>
+            </router-link>
+
+  <!-- Collapsed Menu for User Lists -->
+        <ul id="roleListNav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+        <li>
+        <router-link class="nav-link" to="/rolelist">
+        <i class="bi bi-person-plus-fill me-2" style="color: white;"></i><span class="text-white">View Role List</span>
+        </router-link>
+        </li>
+        <li>
+        <router-link class="nav-link" to="/createrole">
+        <i class="bi bi-person-plus-fill me-2" style="color: white;"></i><span class="text-white">Create Role</span>
+        </router-link>
+        </li>
+    <!-- Add more user-related items here -->
+        </ul>
+    </li>
+
+
+
           <li class="nav-item">
             <router-link class="nav-link text-light" to="/">
                 <i class="bi bi-box-arrow-in-right me-2"></i> Logout
@@ -95,4 +102,24 @@
     background-color: rgba(255, 255, 255, 0.2);
     border-radius: 5px;
   }
+
+  .nav-link {
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-content .nav-link {
+    font-size: 14px;
+  }
+
+  .dropdown-menu {
+    border-radius: 0.375rem; /* Rounded corners for dropdown */
+  }
+
+  .dropdown-item:hover {
+    background-color: #f8f9fa;
+  }
+
+
 </style>

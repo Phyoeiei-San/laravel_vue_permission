@@ -53,7 +53,7 @@
                   />
                 </div>
                 <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-success w-30" >Register</button>
+                <button  class="btn btn-success w-30" >Register</button>
                 </div>
               </form>
             </div>
