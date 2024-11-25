@@ -88,36 +88,36 @@
     },
     methods: {
       async fetchUsers() {
-        try {
-          const response = await axios.get("http://127.0.0.1:8000/api/users");
-          this.users = response.data.users;
-        } catch (error) {
-          console.error(error);
-        }
-      },
+            try {
+            const response = await axios.get("http://127.0.0.1:8000/api/users");
+            this.users = response.data.users;
+            } catch (error) {
+            console.error(error);
+            }
+        },
       async deleteUser(userId) {
-    // Confirm deletion
-    if (confirm("Are you sure you want to delete this user?")) {
-      try {
-        // Send DELETE request
-        const response = await axios.delete(
-          `http://127.0.0.1:8000/api/users/${userId}`
-        );
-        alert("User deleted successfully!");
-        // Refresh the user list
-        this.fetchUsers();
-      } catch (error) {
-        console.error("Error deleting user:", error);
-        alert(
-          "Failed to delete user: " +
-            (error.response?.data?.message || "An unknown error occurred.")
-        );
-      }
-    }
-  },
-    },
-    mounted() {
-      this.fetchUsers();
-    },
-  };
+            // Confirm deletion
+            if (confirm("Are you sure you want to delete this user?")) {
+            try {
+                // Send DELETE request
+                const response = await axios.delete(
+                `http://127.0.0.1:8000/api/users/${userId}`
+                );
+                alert("User deleted successfully!");
+                // Refresh the user list
+                this.fetchUsers();
+            } catch (error) {
+                console.error("Error deleting user:", error);
+                alert(
+                "Failed to delete user: " +
+                    (error.response?.data?.message || "An unknown error occurred.")
+                );
+            }
+            }
+        },
+            },
+            mounted() {
+            this.fetchUsers();
+            },
+        };
   </script>

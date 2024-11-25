@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex" style="height: 100vh;">
+    <div class="d-flex" style="height: 130vh;">
       <!-- Sidebar -->
       <SideBar />
 
@@ -21,6 +21,7 @@
                     v-model="user.name"
                     placeholder="Enter staff's full name"
                   />
+                  <small class="text-danger" v-if="validation.nameStatus">Name Is Required</small>
                 </div>
 
                 <!-- Email Input -->
@@ -33,6 +34,7 @@
                     v-model="user.email"
                     placeholder="Enter staff's email"
                   />
+                  <small class="text-danger" v-if="validation.emailStatus">Email Is Required</small>
                 </div>
 
                 <!-- Address Input -->
@@ -45,6 +47,7 @@
                     v-model="user.address"
                     placeholder="Enter staff's address"
                   />
+                  <small class="text-danger" v-if="validation.addressStatus">Address Is Required</small>
                 </div>
 
                 <!-- Mobile Number Input -->
@@ -57,6 +60,7 @@
                     v-model="user.phone_no"
                     placeholder="Enter mobile number"
                   />
+                  <small class="text-danger" v-if="validation.mobileStatus">Phone_no Is Required</small>
                 </div>
 
                 <!-- Role Dropdown -->
@@ -66,12 +70,16 @@
                     class="form-control"
                     id="roleid"
                     v-model="user.role_id"
+                    @change="validateRole"
                   >
+
                     <option value="" disabled>Select a role</option>
                     <option v-for="role in roles" :key="role.id" :value="role.id">
                       {{ role.name }}
                     </option>
+
                   </select>
+                  <small class="text-danger" v-if="validation.roleStatus">Role Is Required</small>
                 </div>
 
                 <!-- Action Buttons -->
@@ -110,6 +118,13 @@
           role_id: "",
         },
         roles: [],
+        validation: {
+          nameStatus: false,
+          emailStatus: false,
+          addressStatus: false,
+          mobileStatus: false,
+          roleStatus: false,
+        },
       };
     },
     mounted() {
@@ -124,7 +139,24 @@
           console.error("Error fetching roles:", error);
         }
       },
+      validateRole() {
+      // Check if a role is selected
+      this.validation.roleStatus = this.user.role_id === "";
+    },
       async saveUser() {
+        this.validateRole();
+        this.validation.nameStatus = !this.user.name;
+        this.validation.emailStatus = !this.user.email;
+        this.validation.addressStatus = !this.user.address;
+        this.validation.mobileStatus = !this.user.phone_no;
+        // this.validation.roleStatus = !this.user.role_id;
+
+        if (this.validation.nameStatus || this.validation.emailStatus || this.validation.addressStatus ||
+            this.validation.mobileStatus || this.validation.roleStatus)
+         {
+          return;
+        }
+
         try {
           const response = await axios.post("http://127.0.0.1:8000/api/users", this.user);
           alert("User created successfully!");
@@ -136,9 +168,14 @@
             phone_no: "",
             role_id: "",
           };
+          this.validation.nameStatus = false;
+          this.validation.emailStatus = false;
+          this.validation.addressStatus = false;
+          this.validation.mobileStatus = false;
+          this.validation.roleStatus = false;
         } catch (error) {
         console.error(error.response.data);
-        alert("Error creating role.");
+
       }
       },
     },

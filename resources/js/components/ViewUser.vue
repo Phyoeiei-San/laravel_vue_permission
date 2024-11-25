@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex" style="height: 100vh;">
+    <div class="d-flex" style="height: 150vh;">
       <SideBar />
       <div class="flex-grow-1 p-4">
         <div class="card shadow-lg h-100">

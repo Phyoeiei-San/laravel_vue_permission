@@ -18,6 +18,7 @@
                     placeholder="Enter your email"
                     required
                   />
+                  <small class="text-danger" v-if="validation.emailStatus">Email Is Required</small>
                 </div>
                 <div class="mb-3">
                   <label for="password" class="form-label">Password</label>
@@ -29,6 +30,7 @@
                     placeholder="Enter your password"
                     required
                   />
+                  <small class="text-danger" v-if="validation.passwordStatus">Password Is Required</small>
                 </div>
                 <div class="d-flex justify-content-center">
                 <button type="submit" class="btn btn-primary w-30" @click="login">Login</button>
@@ -55,10 +57,20 @@ export default {
     return {
       email: "",
       password: "",
+      validation: {
+          emailStatus: false,
+          passwordStatus: false,
+        },
     };
   },
   methods: {
     async login() {
+        this.validation.emailStatus = !this.email;
+        this.validation.passwordStatus = !this.password;
+        if(this.validation.emailStatus || this.validation.passwordStatus)
+        {
+            return
+        }
       try {
         const response = await axios.post("http://127.0.0.1:8000/api/login", {
           email: this.email,

@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex" style="height: 100vh;">
+    <div class="d-flex" style="height: 120vh;">
       <SideBar />
       <div class="flex-grow-1 p-4">
         <div class="card shadow-lg h-100">
@@ -61,7 +61,10 @@
                     </option>
                   </select>
                 </div>
-                <button type="submit" class="btn btn-success">Update</button>
+                <div class="d-flex justify-content-center gap-3 mt-auto">
+                    <button type="submit" class="btn btn-success">Update</button>
+                </div>
+
               </form>
               </div>
             </div>

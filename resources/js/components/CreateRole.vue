@@ -13,54 +13,79 @@
          <div class="container-fluid" style="width:600px; margin:0px auto">
            <!-- Role Input -->
            <form @submit.prevent="createRole">
-   <!-- Role Input -->
-   <div class="form-group mb-4">
-     <label for="name" class="form-label">Role</label>
-     <input type="text" v-model="role.name" id="name" class="form-control" placeholder="Enter role name">
-   </div>
+            <!-- Role Input -->
+            <div class="form-group mb-4">
+                <label for="name" class="form-label">Role</label>
+                <input type="text" v-model="role.name" id="name" class="form-control" placeholder="Enter role name">
+                <small class="text-danger" v-if="validation.roleNameStatus"> Role Name is Required !</small>
+            </div>
 
-   <!-- Permissions Table -->
-   <div class="form-group mb-4">
-     <h5>Permissions</h5>
-     <table class="table table-bordered table-hover table-fluid w-100">
-       <thead>
-         <tr>
-           <th class="text-center">Module</th>
-           <th class="text-center">Create</th>
-           <th class="text-center">View</th>
-           <th class="text-center">Update</th>
-           <th class="text-center">Delete</th>
-         </tr>
-       </thead>
+            <!-- Permissions Table -->
+            <div class="form-group mb-4">
+                <h5>Permissions</h5>
+            <table class="table table-bordered table-hover table-fluid w-100">
+                <thead>
+                    <tr>
+                    <th class="text-center">Module</th>
+                    <th class="text-center">Create</th>
+                    <th class="text-center">View</th>
+                    <th class="text-center">Update</th>
+                    <th class="text-center">Delete</th>
+                    </tr>
+                </thead>
 
-       <tbody>
-        <tr v-for="feature in features" :key="feature.id">
-        <td class="text-center">{{ feature.name }}</td>
-        <td class="text-center"><input type="checkbox" @change="togglePermission(feature.id * 4 - 3)"></td>
-        <td class="text-center"><input type="checkbox" @change="togglePermission(feature.id * 4 - 2)"></td>
-        <td class="text-center"><input type="checkbox" @change="togglePermission(feature.id * 4 - 1)"></td>
-        <td class="text-center"><input type="checkbox" @change="togglePermission(feature.id * 4)"></td>
-        </tr>
+                <tbody>
+                <tr v-for="feature in features" :key="feature.id">
+                    <td class="text-center">{{ feature.name }}</td>
+                    <td class="text-center">
+                    <input
+                        type="checkbox"
+                        :checked="role.permissions.includes(feature.id * 4 - 3)"
+                        @change="togglePermission(feature.id * 4 - 3)"
+                    />
+                    </td>
+                    <td class="text-center">
+                    <input
+                        type="checkbox"
+                        :checked="role.permissions.includes(feature.id * 4 - 2)"
+                        @change="togglePermission(feature.id * 4 - 2)"
+                    />
+                    </td>
+                    <td class="text-center">
+                    <input
+                        type="checkbox"
+                        :checked="role.permissions.includes(feature.id * 4 - 1)"
+                        @change="togglePermission(feature.id * 4 - 1)"
+                    />
+                    </td>
+                    <td class="text-center">
+                    <input
+                        type="checkbox"
+                        :checked="role.permissions.includes(feature.id * 4)"
+                        @change="togglePermission(feature.id * 4)"
+                    />
+                    </td>
+                </tr>
+                </tbody>
 
-        </tbody>
 
-        </table>
+            </table>
+            </div>
+
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-success btn-lg mx-2">Save</button>
+                <button type="reset"  @click="resetForm" class="btn btn-secondary btn-lg mx-2">Cancel</button>
+            </div>
+            </form>
+
+            </div>
+        </div>
+        </div>
+        </div>
         </div>
 
-        <div class="form-group text-center">
-            <button type="submit" class="btn btn-success btn-lg mx-2">Save</button>
-            <button type="reset"  @click="resetForm" class="btn btn-secondary btn-lg mx-2">Cancel</button>
-        </div>
-        </form>
 
-         </div>
-       </div>
-     </div>
-   </div>
- </div>
-
-
- </template>
+    </template>
 
         <script>
         import axios from "axios";
@@ -78,6 +103,9 @@
 
             },
             features: [],
+            validation : {
+                roleNameStatus: false,
+            }
             };
         },
         methods: {
@@ -103,13 +131,18 @@
 
 
             async createRole() {
+                this.validation.roleNameStatus = !this.role.name;
+                if (this.validation.roleNameStatus )
+                {
+                return;
+                }
             try {
                 const response = await axios.post("http://127.0.0.1:8000/api/roles", this.role);
                 alert(response.data.message);
                 this.resetForm();
             } catch (error) {
                 console.error(error.response.data);
-                alert("Error creating role.");
+                alert("Please Select Permission!");
             }
             },
             resetForm() {

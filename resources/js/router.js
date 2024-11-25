@@ -41,14 +41,16 @@ const router = createRouter({
   routes,
 });
 
-// Navigation guard for authentication
-router.beforeEach((to, from, next) => {
-  const isAuthenticated = !!localStorage.getItem('auth_token');
-  if (to.meta.requiresAuth && !isAuthenticated) {
-    next('/login');
-  } else {
-    next();
-  }
-});
-
 export default router;
+
+// Navigation guard for authentication
+// router.beforeEach((to, from, next) => {
+//   const isAuthenticated = !!localStorage.getItem('auth_token');
+//   if (to.meta.requiresAuth && !isAuthenticated) {
+//     next('/login');
+//   } else {
+//     next();
+//   }
+// });
+
+
