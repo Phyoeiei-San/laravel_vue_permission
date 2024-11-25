@@ -52,9 +52,15 @@
                         @click="deleteUser(user.id)">
                         <i class="fas fa-trash-alt"></i> Delete
                         </button>
-                      <button class="btn btn-primary btn-sm">
+                        <router-link
+                        :to="{ name: 'ViewUser', params: { userId: user.id } }"
+                        class="btn btn-primary btn-sm me-2"
+                      >
+                      <i class="fas fa-eye"></i> View
+                      </router-link>
+                      <!-- <button class="btn btn-primary btn-sm">
                         <i class="fas fa-eye"></i> View
-                      </button>
+                      </button> -->
                     </td>
                   </tr>
                 </tbody>

@@ -16,9 +16,9 @@ class Permission extends Model
 
     ];
 
-    public function features()
+    public function feature()
     {
-        return $this->hasMany(Feature::class);
+        return $this->belongsTo(Feature::class);
     }
 
     public function roles()

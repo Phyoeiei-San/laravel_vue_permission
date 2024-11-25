@@ -154,4 +154,15 @@ class UserController extends Controller
         }
     }
 
+
+public function getPermissions(Role $role)
+{
+    // Explicitly specify the column with the table name to avoid ambiguity
+    $permissions = $role->permissions()->select('permissions.id')->pluck('id');
+
+    return response()->json(['permissions' => $permissions]);
+}
+
+
+
 }

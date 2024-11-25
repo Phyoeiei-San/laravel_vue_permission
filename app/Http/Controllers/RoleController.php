@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Role;
+use App\Models\Feature;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -17,6 +18,12 @@ class RoleController extends Controller
         return response()->json(['roles' => $roles], 200);
     }
 
+    public function feature()
+    {
+        $features = Feature::all();
+        return response()->json(['features' => $features], 200);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -28,28 +35,26 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
     public function store(Request $request)
     {
-        // Validate the input
+        // Validate the incoming data
         $request->validate([
             'name' => 'required|string|unique:roles,name',
-            'permissions' => 'array', // Expecting an array of permission IDs
-            'permissions.*' => 'integer|exists:permissions,id',
+            'permissions' => 'required|array', // Validate that permissions is an array
+            'permissions.*' => 'exists:permissions,id', // Validate that each permission exists
         ]);
 
         // Create the role
-        $role = Role::create(['name' => $request->name]);
-
-        // Attach permissions to the role
-        if ($request->has('permissions')) {
-            $role->permissions()->sync($request->permissions);
-        }
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Role created successfully!',
-            'data' => $role->load('permissions')
+        $role = Role::create([
+            'name' => $request->name,
         ]);
+
+        // Attach the permissions to the role (saving into the role_permissions table)
+        $role->permissions()->attach($request->permissions); // Attach the permission IDs
+
+        // Return a success response
+        return response()->json(['message' => 'Role created successfully!'], 201);
     }
     /**
      * Display the specified resource.
@@ -86,6 +91,8 @@ class RoleController extends Controller
 {
     return response()->json(['permissions' => $role->permissions]);
 }
+
+
 
 public function updatePermissions(Request $request, Role $role)
 {
