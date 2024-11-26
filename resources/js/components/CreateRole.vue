@@ -130,21 +130,25 @@
         },
 
 
-            async createRole() {
-                this.validation.roleNameStatus = !this.role.name;
-                if (this.validation.roleNameStatus )
-                {
-                return;
-                }
-            try {
-                const response = await axios.post("http://127.0.0.1:8000/api/roles", this.role);
-                alert(response.data.message);
-                this.resetForm();
-            } catch (error) {
-                console.error(error.response.data);
-                alert("Please Select Permission!");
-            }
-            },
+        async createRole() {
+    this.validation.roleNameStatus = !this.role.name;
+    if (this.validation.roleNameStatus) {
+        return;
+    }
+
+    // Log role.permissions before sending to check the format
+    console.log(this.role.permissions);
+
+    try {
+        const response = await axios.post("http://127.0.0.1:8000/api/roles", this.role);
+        alert(response.data.message);
+        this.resetForm();
+    } catch (error) {
+        console.error(error.response.data); // Check detailed error
+        alert("Please Select Permission!");
+    }
+},
+
             resetForm() {
             this.role.name = "";
             this.role.permissions = [];

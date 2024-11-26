@@ -103,11 +103,11 @@
     },
     async fetchUser() {
       try {
-        console.log("Fetching user for ID:", this.userId);
+        // console.log("Fetching user for ID:", this.userId);
         const response = await axios.get(
           `http://127.0.0.1:8000/api/users/${this.userId}`
         );
-        console.log("Fetched user:", response.data);
+        // console.log("Fetched user:", response.data);
         this.user = response.data.user || this.defaultUser();
       } catch (error) {
         console.error("Error fetching user:", error);

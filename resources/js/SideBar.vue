@@ -65,6 +65,34 @@
         </ul>
     </li>
 
+    <li class="nav-item">
+  <!-- Dropdown Menu for Module Lists -->
+            <router-link
+            class="nav-link collapsed d-flex align-items-center"
+            data-bs-target="#moduleList"
+            data-bs-toggle="collapse"
+            to=""
+            >
+            <i class="bi bi-menu-button-wide me-2"  style="color: white;"></i>
+            <span class="text-white">Module Lists</span><i class="bi bi-chevron-down ms-auto" style="color: white;"></i>
+            </router-link>
+
+  <!-- Collapsed Menu for User Lists -->
+        <ul id="moduleList" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+        <!-- <li>
+        <router-link class="nav-link" to="#">
+        <i class="bi bi-person-plus-fill me-2" style="color: white;"></i><span class="text-white">View Module List</span>
+        </router-link>
+        </li> -->
+        <li>
+        <router-link class="nav-link" to="/createfeature">
+        <i class="bi bi-grid me-2" style="color: white;"></i><span class="text-white">Create Module</span>
+        </router-link>
+        </li>
+    <!-- Add more user-related items here -->
+        </ul>
+    </li>
+
 
 
           <li class="nav-item">

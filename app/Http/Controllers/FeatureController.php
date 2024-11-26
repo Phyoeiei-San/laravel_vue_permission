@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Feature;
+use App\Models\Permission;
 use Illuminate\Http\Request;
 
 class FeatureController extends Controller
@@ -48,10 +49,47 @@ class FeatureController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    // public function store(Request $request)
+    // {
+    //     $validated = $request->validate([
+    //         'name' => 'required|string|max:255',
+
+    //     ]);
+
+    //     // Create user
+    //     $user = new Feature();
+    //     $user->name = $validated['name'];
+
+    //     $user->save();
+
+    //     return response()->json(['message' => 'Module created successfully'], 201);
+    // }
     public function store(Request $request)
-    {
-        //
+{
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+    ]);
+
+    // Create the new feature
+    $feature = new Feature();
+    $feature->name = $validated['name'];
+    $feature->save();
+
+    // Create the permissions associated with the feature
+    $permissions = [
+        'Create', 'View', 'Update', 'Delete'
+    ];
+
+    foreach ($permissions as $permission) {
+        // Create each permission
+        $feature->permissions()->create([
+            'name' => $permission,
+        ]);
     }
+
+    return response()->json(['message' => 'Module created successfully, with permissions'], 201);
+}
+
 
     /**
      * Display the specified resource.

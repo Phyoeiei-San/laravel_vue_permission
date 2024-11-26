@@ -9,6 +9,7 @@ import CreateRole from './components/CreateRole.vue';
 import CreateUser from './components/CreateUser.vue';
 import EditUser from './components/EditUser.vue';
 import ViewUser from './components/ViewUser.vue';
+import CreateFeature from './components/CreateFeature.vue';
 
 // Define your routes
 const routes = [
@@ -31,7 +32,14 @@ const routes = [
     name: "ViewUser",
     component: ViewUser,
     props: true, // Enable route params as props
-  }
+  },
+  {
+    path: "/createfeature",
+    name: "CreateFeature",
+    component: CreateFeature,
+
+  },
+
 
 ];
 
