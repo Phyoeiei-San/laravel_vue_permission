@@ -42,35 +42,35 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="module in modules" :key="module.id">
-                        <td class="text-center">{{ module.name }}</td>
+                      <tr v-for="rolefeature in rolefeatures" :key="rolefeature.id">
+                        <td class="text-center">{{ rolefeature.name }}</td>
                         <td class="text-center">
                           <input
                             type="checkbox"
-                            :checked="hasPermission(module.create)"
-                            @change="togglePermission(module.create)"
+                            :checked="hasPermission(rolefeature.create)"
+                            @change="togglePermission(rolefeature.create)"
                           />
                         </td>
                         <td class="text-center">
                           <input
                             type="checkbox"
-                            :checked="hasPermission(module.view)"
-                            @change="togglePermission(module.view)"
+                            :checked="hasPermission(rolefeature.view)"
+                            @change="togglePermission(rolefeature.view)"
                           />
                         </td>
                         <td class="text-center">
                           <input
                             type="checkbox"
-                            :checked="hasPermission(module.update)"
-                            @change="togglePermission(module.update)"
+                            :checked="hasPermission(rolefeature.update)"
+                            @change="togglePermission(rolefeature.update)"
                           />
 
                         </td>
                         <td class="text-center">
                           <input
                             type="checkbox"
-                            :checked="hasPermission(module.delete)"
-                            @change="togglePermission(module.delete)"
+                            :checked="hasPermission(rolefeature.delete)"
+                            @change="togglePermission(rolefeature.delete)"
                           />
                         </td>
                       </tr>
@@ -118,7 +118,7 @@ export default {
     roles: [], // Roles fetched from the database
     selectedRoleId: "",
     selectedPermissions: [], // Permissions for the selected role
-    modules: [], // Modules fetched dynamically
+    rolefeatures: [], // Modules fetched dynamically
   };
 },
 
@@ -136,8 +136,8 @@ export default {
     // Fetch features from the API
     async fetchModules() {
   try {
-    const response = await axios.get("http://127.0.0.1:8000/api/modules");
-    this.modules = response.data.modules;
+    const response = await axios.get("http://127.0.0.1:8000/api/rolefeatures");
+    this.rolefeatures = response.data.rolefeatures;
   } catch (error) {
     console.error("Error fetching modules:", error);
   }

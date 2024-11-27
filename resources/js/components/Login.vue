@@ -64,36 +64,75 @@ export default {
     };
   },
   methods: {
-    async login() {
-        this.validation.emailStatus = !this.email;
-        this.validation.passwordStatus = !this.password;
-        if(this.validation.emailStatus || this.validation.passwordStatus)
-        {
-            return
-        }
-      try {
+    // async login() {
+    //     this.validation.emailStatus = !this.email;
+    //     this.validation.passwordStatus = !this.password;
+    //     if(this.validation.emailStatus || this.validation.passwordStatus)
+    //     {
+    //         return
+    //     }
+    //   try {
 
+    //     const response = await axios.post("http://127.0.0.1:8000/api/login", {
+    //       email: this.email,
+    //       password: this.password,
+    //     });
+
+    //     // Save the authentication token to localStorage
+    //     localStorage.setItem("auth_token", response.data.token);
+
+    //     // Display success message
+    //     alert("Login successful!");
+
+    //     this.email = '';
+    //     this.password = '';
+
+    //     // Redirect to the dashboard page
+    //     this.$router.push("/userlist");
+    //   } catch (error) {
+    //     console.error("Login failed:", error);
+    //     alert("Login failed. Please check your credentials.");
+    //   }
+    // },
+
+    async login() {
+    this.validation.emailStatus = !this.email;
+    this.validation.passwordStatus = !this.password;
+    if (this.validation.emailStatus || this.validation.passwordStatus) {
+        return;
+    }
+    try {
         const response = await axios.post("http://127.0.0.1:8000/api/login", {
-          email: this.email,
-          password: this.password,
+            email: this.email,
+            password: this.password,
         });
 
         // Save the authentication token to localStorage
-        localStorage.setItem("auth_token", response.data.token);
+        const token = response.data.token;
+        localStorage.setItem("auth_token", token);
+
+        // Extract the user's ID
+        const userId = response.data.user.id;
 
         // Display success message
         alert("Login successful!");
 
-        this.email = '';
-        this.password = '';
+        this.email = "";
+        this.password = "";
 
-        // Redirect to the dashboard page
-        this.$router.push("/userlist");
-      } catch (error) {
+        // Conditionally redirect based on user ID
+        if (userId === 1) {
+            this.$router.push("/userlist");
+        } else {
+            this.$router.push("/modulepermission");
+        }
+    } catch (error) {
         console.error("Login failed:", error);
         alert("Login failed. Please check your credentials.");
-      }
-    },
+    }
+}
+
+
   },
 };
 </script>

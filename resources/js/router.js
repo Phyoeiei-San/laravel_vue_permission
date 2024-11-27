@@ -10,6 +10,7 @@ import CreateUser from './components/CreateUser.vue';
 import EditUser from './components/EditUser.vue';
 import ViewUser from './components/ViewUser.vue';
 import CreateFeature from './components/CreateFeature.vue';
+import ModulePermission from './components/ModulePermission.vue';
 
 // Define your routes
 const routes = [
@@ -39,6 +40,12 @@ const routes = [
     component: CreateFeature,
 
   },
+  {
+    path: "/modulepermission",
+    name: "ModulePermission",
+    component: ModulePermission,
+
+  },
 
 
 ];
@@ -48,6 +55,17 @@ const router = createRouter({
   history: createWebHistory(), // Use history mode for clean URLs
   routes,
 });
+
+router.beforeEach((to, from, next) => {
+    const token = localStorage.getItem("auth_token");
+
+    if (to.meta.requiresAuth && !token) {
+        next("/login"); // Redirect to login if not authenticated
+    } else {
+        next(); // Allow navigation
+    }
+});
+
 
 export default router;
 

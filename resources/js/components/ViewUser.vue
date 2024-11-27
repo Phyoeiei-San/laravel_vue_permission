@@ -77,33 +77,33 @@
                       </tr>
                     </thead>
                     <tbody>
-  <tr v-for="module in modules" :key="module.name">
-    <td class="text-center">{{ module.name }}</td>
+  <tr v-for="rolefeature in rolefeatures" :key="rolefeature.name">
+    <td class="text-center">{{ rolefeature.name }}</td>
     <td class="text-center">
       <input
         type="checkbox"
-        :checked="hasPermission(module.create)"
+        :checked="hasPermission(rolefeature.create)"
         disabled
       />
     </td>
     <td class="text-center">
       <input
         type="checkbox"
-        :checked="hasPermission(module.view)"
+        :checked="hasPermission(rolefeature.view)"
         disabled
       />
     </td>
     <td class="text-center">
       <input
         type="checkbox"
-        :checked="hasPermission(module.update)"
+        :checked="hasPermission(rolefeature.update)"
         disabled
       />
     </td>
     <td class="text-center">
       <input
         type="checkbox"
-        :checked="hasPermission(module.delete)"
+        :checked="hasPermission(rolefeature.delete)"
         disabled
       />
     </td>
@@ -137,7 +137,7 @@
       user: this.defaultUser(),
       roles: [],
       loading: true,
-      modules: [], // Modules fetched dynamically
+      rolefeatures: [], // Modules fetched dynamically
       selectedPermissions: [], // Permissions for the selected role
     };
   },
@@ -176,8 +176,8 @@
     },
     async fetchModules() {
   try {
-    const response = await axios.get("http://127.0.0.1:8000/api/modules");
-    this.modules = response.data.modules;
+    const response = await axios.get("http://127.0.0.1:8000/api/rolefeatures");
+    this.rolefeatures = response.data.rolefeatures;
   } catch (error) {
     console.error("Error fetching modules:", error);
   }

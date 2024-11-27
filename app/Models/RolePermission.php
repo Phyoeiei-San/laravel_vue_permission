@@ -20,9 +20,13 @@ class RolePermission extends Model
         return $this->belongsToMany(Role::class);
     }
 
-    public function permissions()
+    // public function permissions()
+    // {
+    //     return $this->belongsToMany(Permission::class);
+    // }
+    public function permission()
     {
-        return $this->belongsToMany(Permission::class);
+        return $this->belongsTo(Permission::class);
     }
 
 }

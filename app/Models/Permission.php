@@ -21,6 +21,7 @@ class Permission extends Model
         return $this->belongsTo(Feature::class);
     }
 
+
     public function roles()
     {
         return $this->belongsToMany(Role::class, 'role_permissions');

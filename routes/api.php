@@ -45,7 +45,9 @@ Route::post('/roles/{role}/permissions', [RoleController::class, 'updatePermissi
 Route::get('/features', [RoleController::class, 'feature']);
 
 Route::apiResource('/features',FeatureController::class);
-Route::get('/modules', [FeatureController::class, 'role_feature']);
+Route::get('/rolefeatures', [FeatureController::class, 'role_feature']);
+Route::middleware('auth:sanctum')->get('/modules', [FeatureController::class, 'getModules']);
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

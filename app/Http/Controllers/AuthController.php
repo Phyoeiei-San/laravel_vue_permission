@@ -30,26 +30,46 @@ class AuthController extends Controller
         return response()->json(['message' => 'User registered successfully.']);
     }
 
+    // public function login(Request $request)
+    // {
+    //     $request->validate([
+    //         'email' => 'required|string|email',
+    //         'password' => 'required|string',
+    //     ]);
+
+    //     if (!Auth::attempt($request->only('email', 'password'))) {
+    //         return response()->json(['message' => 'Invalid credentials.'], 401);
+    //     }
+
+    //     $user = Auth::user();
+    //     // $token = $user->createToken('auth_token')->plainTextToken;
+
+    //     return response()->json([
+    //         // 'token' => $token,
+    //         'user' => $user,
+    //     ]);
+    //     // return response()->json([ 'user' => $user]);
+    // }
+
     public function login(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string',
-        ]);
+{
+    $request->validate([
+        'email' => 'required|string|email',
+        'password' => 'required|string',
+    ]);
 
-        if (!Auth::attempt($request->only('email', 'password'))) {
-            return response()->json(['message' => 'Invalid credentials.'], 401);
-        }
-
-        $user = Auth::user();
-        // $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()->json([
-            // 'token' => $token,
-            'user' => $user,
-        ]);
-        // return response()->json([ 'user' => $user]);
+    if (!Auth::attempt($request->only('email', 'password'))) {
+        return response()->json(['message' => 'Invalid credentials.'], 401);
     }
+
+    $user = Auth::user();
+    $token = $user->createToken('auth_token')->plainTextToken;
+
+    return response()->json([
+        'token' => $token,
+        'user' => $user,
+    ]);
+}
 
     public function user(Request $request)
     {
