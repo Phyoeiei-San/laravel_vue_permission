@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Role;
+use App\Models\User;
 use App\Models\UserRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -37,26 +38,38 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'address' => 'nullable|string',
-            'phone_no' => 'required|string|max:15',
-            'role_id' => 'required|exists:roles,id',
-        ]);
+{
+    // Validate input
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email|unique:user_roles,email', // Ensure email is unique in both tables
+        'address' => 'nullable|string',
+        'phone_no' => 'required|string|max:15',
+        'role_id' => 'required|exists:roles,id',
+    ]);
 
-        // Create user
-        $user = new UserRole();
-        $user->name = $validated['name'];
-        $user->email = $validated['email'];
-        $user->address = $validated['address'] ?? null;
-        $user->phone_no = $validated['phone_no'];
-        $user->role_id = $validated['role_id'];
-        $user->save();
+    // Save data in user_roles table
+    $userRole = new UserRole();
+    $userRole->name = $validated['name'];
+    $userRole->email = $validated['email'];
+    $userRole->address = $validated['address'] ?? null;
+    $userRole->phone_no = $validated['phone_no'];
+    $userRole->role_id = $validated['role_id'];
+    $userRole->save();
 
-        return response()->json(['message' => 'User created successfully'], 201);
-    }
+    // Save data in users table
+    $user = new User();
+    $user->name = $validated['name'];
+    $user->email = $validated['email'];
+    $user->role_id = $validated['role_id'];
+    $user->password = $userRole->id === 1 ? bcrypt('admin_default_password') : bcrypt('office12'); // Custom password logic
+    $user->save();
+
+    // Return success response
+    return response()->json(['message' => 'User and User Role created successfully'], 201);
+}
+
+
 
     /**
      * Display the specified resource.

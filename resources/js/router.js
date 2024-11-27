@@ -15,7 +15,7 @@ import CreateFeature from './components/CreateFeature.vue';
 const routes = [
 //   { path: '/', component: Home },
   { path: '/dashboard', component: Dashboard, meta: { requiresAuth: true } },
-  { path: '/', name: 'login', component: Login },
+  { path: '/login', name: 'login', component: Login },
   { path: '/register', component: Register },
   { path: '/userlist', name: 'userlist', component: UserList },
   { path: '/rolelist', name: 'rolelist', component: RoleList },
