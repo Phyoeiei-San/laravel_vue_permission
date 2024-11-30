@@ -64,36 +64,8 @@ export default {
     };
   },
   methods: {
-    // async login() {
-    //     this.validation.emailStatus = !this.email;
-    //     this.validation.passwordStatus = !this.password;
-    //     if(this.validation.emailStatus || this.validation.passwordStatus)
-    //     {
-    //         return
-    //     }
-    //   try {
 
-    //     const response = await axios.post("http://127.0.0.1:8000/api/login", {
-    //       email: this.email,
-    //       password: this.password,
-    //     });
 
-    //     // Save the authentication token to localStorage
-    //     localStorage.setItem("auth_token", response.data.token);
-
-    //     // Display success message
-    //     alert("Login successful!");
-
-    //     this.email = '';
-    //     this.password = '';
-
-    //     // Redirect to the dashboard page
-    //     this.$router.push("/userlist");
-    //   } catch (error) {
-    //     console.error("Login failed:", error);
-    //     alert("Login failed. Please check your credentials.");
-    //   }
-    // },
 
     async login() {
     this.validation.emailStatus = !this.email;
@@ -130,6 +102,8 @@ export default {
         console.error("Login failed:", error);
         alert("Login failed. Please check your credentials.");
     }
+
+
 }
 
 

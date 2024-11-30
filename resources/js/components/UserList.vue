@@ -41,26 +41,35 @@
                     </td>
                     <td class="d-flex justify-content-center">
 
-                      <router-link
+                      <!-- <router-link
                         :to="{ name: 'EditUser', params: { userId: user.id } }"
                         class="btn btn-success btn-sm me-2"
                       >
                         <i class="fas fa-edit"></i> Edit
-                      </router-link>
+                      </router-link> -->
+                      <button
+                        @click="goToEdit(user.id)"
+                         class="btn btn-success btn-sm me-2"
+                    >
+                        Edit
+                    </button>
                       <button
                         class="btn btn-danger btn-sm me-2"
                         @click="deleteUser(user.id)">
                         <i class="fas fa-trash-alt"></i> Delete
                         </button>
-                        <router-link
+                        <!-- <router-link
                         :to="{ name: 'ViewUser', params: { userId: user.id } }"
                         class="btn btn-primary btn-sm me-2"
                       >
                       <i class="fas fa-eye"></i> View
-                      </router-link>
-                      <!-- <button class="btn btn-primary btn-sm">
-                        <i class="fas fa-eye"></i> View
-                      </button> -->
+                      </router-link> -->
+                      <button
+                        @click="goToView(user.id)"
+                        class="btn btn-primary btn-sm me-2"
+                    >
+                        View
+                    </button>
                     </td>
                   </tr>
                 </tbody>
@@ -87,9 +96,27 @@
       };
     },
     methods: {
+        goToEdit(userId) {
+            this.$router.push({
+                name: "EditUser",
+                params: { userId },
+                query: { fromButton: true }, // Pass a query parameter for validation
+            });
+            },
+            goToView(userId) {
+            this.$router.push({
+                name: "ViewUser",
+                params: { userId },
+                query: { fromButton: true }, // Pass a query parameter for validation
+            });
+            },
       async fetchUsers() {
             try {
-            const response = await axios.get("http://127.0.0.1:8000/api/users");
+            const token = localStorage.getItem('auth_token');
+            const response = await axios.get("http://127.0.0.1:8000/api/users",
+
+            {headers: { Authorization: `Bearer ${token}` },
+        });
             this.users = response.data.users;
             } catch (error) {
             console.error(error);

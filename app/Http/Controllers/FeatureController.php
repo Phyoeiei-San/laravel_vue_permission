@@ -90,25 +90,6 @@ class FeatureController extends Controller
 
 
 
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    // public function store(Request $request)
-    // {
-    //     $validated = $request->validate([
-    //         'name' => 'required|string|max:255',
-
-    //     ]);
-
-    //     // Create user
-    //     $user = new Feature();
-    //     $user->name = $validated['name'];
-
-    //     $user->save();
-
-    //     return response()->json(['message' => 'Module created successfully'], 201);
-    // }
     public function store(Request $request)
 {
     $validated = $request->validate([

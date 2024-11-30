@@ -222,6 +222,10 @@ async fetchRolePermissions() {
     this.fetchUser();
     this.fetchRoles();
     this.fetchModules();
+    const { fromButton, ...restQuery } = this.$route.query;
+    if (fromButton) {
+      this.$router.replace({ ...this.$route, query: restQuery });
+    }
 
     this.$watch(
     () => this.user.role_id,

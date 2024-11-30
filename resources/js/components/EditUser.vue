@@ -141,10 +141,14 @@
 
   },
   mounted() {
-    // console.log("User ID:", this.userId);
     this.fetchUser();
     this.fetchRoles();
+    const { fromButton, ...restQuery } = this.$route.query;
+    if (fromButton) {
+      this.$router.replace({ ...this.$route, query: restQuery });
+    }
   },
+
 };
 
 

@@ -95,13 +95,11 @@
 
 
 
-          <li class="nav-item">
-            <router-link class="nav-link text-light" to="/">
-                <i class="bi bi-box-arrow-in-right me-2"></i> Logout
-            </router-link>
+          <li class="nav-item" >
 
-
-
+           <button type="submit" class="nav-link text-light" @click="logout">
+           <i class="bi bi-box-arrow-in-right me-2"></i> Logout
+           </button>
           </li>
         </ul>
       </aside>
@@ -111,8 +109,25 @@
 </template>
 
 <script>
+    import axios from 'axios';
     export default {
         name:'SideBar',
+        methods: {
+            async logout() {
+                try {
+                    const token = localStorage.getItem('auth_token');
+                    await axios.post('http://127.0.0.1:8000/api/logout', {}, {
+                        headers: { Authorization: `Bearer ${token}` },
+                    });
+
+                    localStorage.removeItem('auth_token');
+                    this.$router.push('/login');
+                } catch (error) {
+                    console.error('Logout failed:', error);
+                }
+        }
+
+        },
     }
 </script>
 

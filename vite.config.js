@@ -10,4 +10,9 @@ export default defineConfig({
         }),
         vue(), // Add the Vue plugin here
     ],
+    server: {
+        host: '127.0.0.1',
+        port: 5173, // Optional: Explicitly set the port
+    },
 });
+
