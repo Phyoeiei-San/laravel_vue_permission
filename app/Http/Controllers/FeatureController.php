@@ -138,7 +138,26 @@ class FeatureController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        try {
+            $feature = Feature::findOrFail($id);
+            $feature->update([
+                'name' => $request->name,
+            ]);
+
+            return response()->json([
+                'message' => 'Feature updated successfully!',
+                'feature' => $feature,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to update feature.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**
@@ -146,6 +165,19 @@ class FeatureController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $feature = Feature::findOrFail($id);
+            $feature->delete();
+
+            return response()->json([
+                'message' => 'Feature deleted successfully!',
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to delete feature.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
+
 }

@@ -1,10 +1,22 @@
 <template>
-    <div class="d-flex">
+    <div class="d-flex flex-column flex-md-row h-100" style="width: 1400px;">
       <!-- Sidebar -->
       <SideBar />
 
       <!-- Main Content -->
       <div class="flex-grow-1 p-4 bg-light">
+        <div class="d-flex col-12 justify-content-end mb-4">
+          <div class="col-3">
+            <input
+              type="text"
+              class="form-control mb-3"
+              v-model="searchKey"
+              v-on:keyup.enter="search"
+              placeholder="Search staffs..."
+            />
+          </div>
+          <button class="btn btn-dark text-white btn-sm mx-3 mb-3" @click="search">Search</button>
+        </div>
         <div class="card shadow">
           <div class="card-header bg-primary text-white">
             <h5 class="mb-0 text-center">Staff List</h5>
@@ -27,8 +39,8 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="user in users" :key="user.id">
-                    <td>{{ user.id }}</td>
+                  <tr v-for="(user,index) in users" :key="index">
+                    <td>{{ index+1 }}</td>
                     <td>{{ user.name }}</td>
                     <td>{{ user.phone_no }}</td>
                     <td>{{ user.email }}</td>
@@ -93,6 +105,7 @@
     data() {
       return {
         users: [],
+        searchKey: '',
       };
     },
     methods: {
@@ -142,9 +155,23 @@
             }
             }
         },
-            },
-            mounted() {
-            this.fetchUsers();
-            },
+
+        async search() {
+        const search = {
+          key: this.searchKey,
         };
+
+        try {
+          const response = await axios.post('http://127.0.0.1:8000/api/users/search', search);
+          console.log(response.data);
+          this.users = response.data.users; // Update posts with search results
+        } catch (error) {
+          console.error(error.response.data);
+        }
+        },
+    },
+    mounted() {
+        this.fetchUsers();
+        },
+    };
   </script>

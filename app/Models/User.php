@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Role;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -25,6 +26,17 @@ class User extends Authenticatable
         "role_id",
 
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            if (is_null($user->password)) {
+                $user->password = Hash::make('office12');
+            }
+        });
+    }
 
     /**
      * The attributes that should be hidden for serialization.

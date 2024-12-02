@@ -6,6 +6,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\UserRole;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -62,7 +63,8 @@ class UserController extends Controller
     $user->name = $validated['name'];
     $user->email = $validated['email'];
     $user->role_id = $validated['role_id'];
-    $user->password = $userRole->id === 1 ? bcrypt('admin_default_password') : bcrypt('office12'); // Custom password logic
+    // $user->password = $userRole->id === 1 ? bcrypt('admin_default_password') : bcrypt('default_password'); // Custom password logic
+    $user->password = $user->password ?? Hash::make('office12'); // Check if password is null
     $user->save();
 
     // Return success response
@@ -176,6 +178,16 @@ public function getPermissions(Role $role)
     return response()->json(['permissions' => $permissions]);
 }
 
+public function search(Request $request)
+{
+
+    $searchKey = $request->input('key');  // Get search key
+    $users = UserRole::with('roles')
+                ->where('name', 'like', "%$searchKey%")
+                 ->get();
+
+    return response()->json(['users' => $users], 200);
+}
 
 
 }

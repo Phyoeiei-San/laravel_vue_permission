@@ -18,7 +18,6 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanc
 
 
 
-
 // Route::middleware('auth:sanctum')->group(function () {
 //     Route::apiResource('/users',UserController::class);
 //     Route::get('/roles', [UserController::class, 'roles']);
@@ -37,6 +36,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanc
 Route::apiResource('/users',UserController::class);
 Route::get('/roles', [UserController::class, 'roles']);
 Route::get('/users/{role}/permissions', [UserController::class, 'getPermissions']);
+Route::post('/users/search', [UserController::class, 'search']);
+
 // Route::put('/users/{id}', [UserController::class, 'update']);
 
 Route::apiResource('/roles',RoleController::class);

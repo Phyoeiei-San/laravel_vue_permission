@@ -111,6 +111,9 @@ const routes = [
         meta: { requiresAuth: true }
 
     },
+
+
+
     {
         path: "/modulepermission",
         name: "ModulePermission",
@@ -189,7 +192,7 @@ router.beforeEach(async (to, from, next) => {
             (to.path === '/login' || to.path === '/register' ||
             to.path === '/userlist' || to.path === '/rolelist' ||
             to.path === '/createuser' || to.path === '/createrole' ||
-            to.path === '/createfeature') && user.id !== 1
+            to.path === '/createfeature' ) && user.id !== 1
         ) {
             // Redirect non-admin users away from login, register, or userlist pages
             return next('/modulepermission');
