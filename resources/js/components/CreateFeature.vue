@@ -8,7 +8,7 @@
         <div class="row g-4 mt-3">
           <!-- Create/Edit Module Card -->
           <div class="col-md-5">
-            <div class="card shadow-lg h-100 ">
+            <div class="card shadow-lg  ">
               <div class="card-header bg-primary text-white text-center">
                 <h3>{{ editMode ? "Edit Module" : "Create Module" }}</h3>
               </div>
@@ -50,30 +50,32 @@
                 <h3>Module List</h3>
               </div>
               <div class="card-body p-0">
-                <table class="table table-striped table-hover mb-0">
-                  <thead class="table-secondary">
-                    <tr>
-                      <th scope="col">ID</th>
-                      <th scope="col">Module Name</th>
-                      <th scope="col" class="text-center">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
+                <div class="table-responsive">
+            <table class="table table-striped table-hover mb-0">
+                <thead class="table-secondary">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Module Name</th>
+                    <th scope="col" class="text-center">Action</th>
+                </tr>
+                </thead>
+            <tbody>
+            <tr v-for="(feature, index) in features" :key="index">
+                <td>{{ index + 1 }}</td>
+                <td>{{ feature.name }}</td>
+                <td class="text-center">
+                <button class="btn btn-sm btn-success me-2" @click="editModule(feature)">
+                    Edit
+                </button>
+                <button class="btn btn-sm btn-danger" @click="deleteModule(feature.id)">
+                    Delete
+                </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
 
-                    <tr v-for="(feature,index) in features" :key="index">
-                      <td>{{ index+1 }}</td>
-                      <td>{{ feature.name }}</td>
-                      <td class="text-center">
-                        <button class="btn btn-sm btn-success me-2" @click="editModule(feature)">
-                          Edit
-                        </button>
-                        <button class="btn btn-sm btn-danger" @click="deleteModule(feature.id)">
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
               </div>
             </div>
           </div>

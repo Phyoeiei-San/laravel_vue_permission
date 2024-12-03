@@ -77,42 +77,45 @@
                       </tr>
                     </thead>
                     <tbody>
-  <tr v-for="rolefeature in rolefeatures" :key="rolefeature.name">
-    <td class="text-center">{{ rolefeature.name }}</td>
-    <td class="text-center">
-      <input
-        type="checkbox"
-        :checked="hasPermission(rolefeature.create)"
-        disabled
-      />
-    </td>
-    <td class="text-center">
-      <input
-        type="checkbox"
-        :checked="hasPermission(rolefeature.view)"
-        disabled
-      />
-    </td>
-    <td class="text-center">
-      <input
-        type="checkbox"
-        :checked="hasPermission(rolefeature.update)"
-        disabled
-      />
-    </td>
-    <td class="text-center">
-      <input
-        type="checkbox"
-        :checked="hasPermission(rolefeature.delete)"
-        disabled
-      />
-    </td>
-  </tr>
-</tbody>
+            <tr v-for="rolefeature in rolefeatures" :key="rolefeature.name">
+                <td class="text-center">{{ rolefeature.name }}</td>
+                <td class="text-center">
+                <input
+                    type="checkbox"
+                    :checked="hasPermission(rolefeature.create)"
+                    disabled
+                />
+            </td>
+            <td class="text-center">
+            <input
+                type="checkbox"
+                :checked="hasPermission(rolefeature.view)"
+                disabled
+            />
+            </td>
+            <td class="text-center">
+            <input
+                type="checkbox"
+                :checked="hasPermission(rolefeature.update)"
+                disabled
+            />
+            </td>
+            <td class="text-center">
+            <input
+                type="checkbox"
+                :checked="hasPermission(rolefeature.delete)"
+                disabled
+            />
+            </td>
+        </tr>
+        </tbody>
 
                   </table>
                 </div>
+                <div class="d-flex justify-content-center gap-3 mt-auto">
+                    <router-link to="/userlist" class="btn btn-primary">Back</router-link>
 
+                </div>
               </form>
               </div>
             </div>

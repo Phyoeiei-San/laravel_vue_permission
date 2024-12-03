@@ -1,11 +1,12 @@
 <template>
+
     <div class="d-flex flex-column flex-md-row h-100" style="width: 1400px;">
       <!-- Sidebar -->
       <SideBar />
 
       <!-- Main Content -->
       <div class="flex-grow-1 p-4 bg-light">
-        <div class="d-flex col-12 justify-content-end mb-4">
+        <div class="d-flex col-12 justify-content-end mb-1">
           <div class="col-3">
             <input
               type="text"
@@ -17,12 +18,12 @@
           </div>
           <button class="btn btn-dark text-white btn-sm mx-3 mb-3" @click="search">Search</button>
         </div>
-        <div class="card shadow">
+        <div class="card shadow ">
           <div class="card-header bg-primary text-white">
             <h5 class="mb-0 text-center">Staff List</h5>
           </div>
           <div class="card-body">
-            <div class="table-responsive">
+            <div class="table-responsive ">
               <table
                 id="example"
                 class="table table-striped table-hover table-bordered text-center align-middle w-100"
@@ -175,3 +176,4 @@
         },
     };
   </script>
+

@@ -1,5 +1,6 @@
 <template>
-    <div class="d-flex">
+
+ <div class="d-flex flex-column flex-md-row" style="height: 130vh;">
    <!-- Sidebar -->
    <SideBar />
    <!-- Main Content -->

@@ -62,6 +62,7 @@
                   </select>
                 </div>
                 <div class="d-flex justify-content-center gap-3 mt-auto">
+                    <router-link to="/userlist" class="btn btn-primary">Back</router-link>
                     <button type="submit" class="btn btn-success">Update</button>
                 </div>
 
