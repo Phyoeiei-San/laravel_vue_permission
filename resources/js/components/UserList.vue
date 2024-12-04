@@ -75,12 +75,11 @@
                     </td>
                   </tr>
                 </tbody>
-                <div
-                    v-else
+                <div v-else
                     class="d-flex justify-content-center align-items-center bg-light mx-5 mt-3"
-                    style="height: 200px; width: 500%;"
+                    style="height: 100px; width: 500%;"
                 >
-                    <h3 class="text-center text-danger ">No Staff List Found !...</h3>
+                    <h2 class="text-center text-danger ">No Staff List Found !...</h2>
                 </div>
               </table>
             </div>
