@@ -39,7 +39,8 @@
                     <th style="width: 10%;">Action</th>
                   </tr>
                 </thead>
-                <tbody>
+
+                <tbody v-if="users.length > 0">
                   <tr v-for="(user,index) in users" :key="index">
                     <td>{{ index+1 }}</td>
                     <td>{{ user.name }}</td>
@@ -54,12 +55,6 @@
                     </td>
                     <td class="d-flex justify-content-center">
 
-                      <!-- <router-link
-                        :to="{ name: 'EditUser', params: { userId: user.id } }"
-                        class="btn btn-success btn-sm me-2"
-                      >
-                        <i class="fas fa-edit"></i> Edit
-                      </router-link> -->
                       <button
                         @click="goToEdit(user.id)"
                          class="btn btn-success btn-sm me-2"
@@ -71,12 +66,6 @@
                         @click="deleteUser(user.id)">
                         <i class="fas fa-trash-alt"></i> Delete
                         </button>
-                        <!-- <router-link
-                        :to="{ name: 'ViewUser', params: { userId: user.id } }"
-                        class="btn btn-primary btn-sm me-2"
-                      >
-                      <i class="fas fa-eye"></i> View
-                      </router-link> -->
                       <button
                         @click="goToView(user.id)"
                         class="btn btn-primary btn-sm me-2"
@@ -86,6 +75,13 @@
                     </td>
                   </tr>
                 </tbody>
+                <div
+                    v-else
+                    class="d-flex justify-content-center align-items-center bg-light mx-5 mt-3"
+                    style="height: 200px; width: 500%;"
+                >
+                    <h3 class="text-center text-danger ">No Staff List Found !...</h3>
+                </div>
               </table>
             </div>
           </div>
@@ -114,14 +110,14 @@
             this.$router.push({
                 name: "EditUser",
                 params: { userId },
-                query: { fromButton: true }, // Pass a query parameter for validation
+                query: { fromButton: true },
             });
             },
             goToView(userId) {
             this.$router.push({
                 name: "ViewUser",
                 params: { userId },
-                query: { fromButton: true }, // Pass a query parameter for validation
+                query: { fromButton: true },
             });
             },
       async fetchUsers() {
@@ -174,6 +170,14 @@
     mounted() {
         this.fetchUsers();
         },
+
+        watch: {
+        searchKey(newSearchKey) {
+            if (!newSearchKey.trim()) {
+            this.fetchUsers();
+            }
+        },
+        }
     };
   </script>
 

@@ -172,7 +172,7 @@ class UserController extends Controller
 
 public function getPermissions(Role $role)
 {
-    // Explicitly specify the column with the table name to avoid ambiguity
+
     $permissions = $role->permissions()->select('permissions.id')->pluck('id');
 
     return response()->json(['permissions' => $permissions]);
@@ -181,9 +181,12 @@ public function getPermissions(Role $role)
 public function search(Request $request)
 {
 
-    $searchKey = $request->input('key');  // Get search key
+    $searchKey = $request->input('key');
     $users = UserRole::with('roles')
                 ->where('name', 'like', "%$searchKey%")
+                ->orWhereHas('roles', function ($query) use ($searchKey) {
+                    $query->where('name', 'like', "%$searchKey%");
+                })
                  ->get();
 
     return response()->json(['users' => $users], 200);
