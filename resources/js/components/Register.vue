@@ -59,7 +59,7 @@
             </div>
             <div class="card-footer text-center">
               <small class="text-muted">Already have an account?
-                <router-link class="text-success" to="/login">Login</router-link>
+                <router-link class="text-success" to="/">Login</router-link>
                  .</small>
             </div>
           </div>

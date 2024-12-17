@@ -1,6 +1,6 @@
-import { createRouter, createWebHistory } from 'vue-router'; // Use Vue 3's router API
+import { createRouter, createWebHistory } from 'vue-router';
 // import Home from './components/Home.vue';
-import Dashboard from './components/Dashboard.vue';
+// import Dashboard from './components/Dashboard.vue';
 import Login from './components/Login.vue';
 import Register from './components/Register.vue';
 import UserList from './components/UserList.vue';
@@ -18,13 +18,13 @@ import axios from 'axios';
 // Define your routes
 const routes = [
     //   { path: '/', component: Home },
+    // {
+    //     path: '/dashboard',
+    //     component: Dashboard,
+    //     meta: { requiresAuth: true }
+    // },
     {
-        path: '/dashboard',
-        component: Dashboard,
-        meta: { requiresAuth: true }
-    },
-    {
-        path: '/login',
+        path: '/',
          name: 'login',
         component: Login,
         meta: { requiresAuth: false }
@@ -59,13 +59,7 @@ const routes = [
         component: CreateUser, meta:
             { requiresAuth: true }
     },
-    // {
-    //     path: "/users/edit/:userId",
-    //     name: "EditUser",
-    //     component: EditUser,
-    //     props: true, // Enable route params as props
-    //     meta: { requiresAuth: true }
-    // },
+
     {
         path: "/users/edit/:userId",
         name: "EditUser",
@@ -73,22 +67,16 @@ const routes = [
         props: true,
         meta: { requiresAuth: true },
         beforeEnter: (to, from, next) => {
-          // Check if `fromButton` query param is present
+
           if (to.query.fromButton) {
-            next(); // Allow access
+            next();
           } else {
-            next({ name: "Forbidden" }); // Redirect to a safe page
+            next({ name: "Forbidden" });
           }
         },
       },
 
-    // {
-    //     path: "/users/view/:userId",
-    //     name: "ViewUser",
-    //     component: ViewUser,
-    //     props: true, // Enable route params as props
-    //     meta: { requiresAuth: true }
-    // },
+
     {
         path: "/users/view/:userId",
         name: "ViewUser",
@@ -96,11 +84,11 @@ const routes = [
         props: true,
         meta: { requiresAuth: true },
         beforeEnter: (to, from, next) => {
-          // Check if `fromButton` query param is present
+
           if (to.query.fromButton) {
-            next(); // Allow access
+            next();
           } else {
-            next({ name: "Forbidden" }); // Redirect to a safe page
+            next({ name: "Forbidden" });
           }
         },
       },
@@ -132,18 +120,13 @@ const routes = [
 
 ];
 
-// Create the router instance
+
 const router = createRouter({
-    history: createWebHistory(), // Use history mode for clean URLs
+    history: createWebHistory(),
     routes,
 });
 
 
-
-
-
-
-// Helper function to retrieve user details
 async function fetchUser() {
     const token = localStorage.getItem('auth_token');
     if (!token) {
@@ -184,28 +167,28 @@ router.beforeEach(async (to, from, next) => {
 
     // Redirect to login if authentication is required but user is not authenticated
     if (to.meta.requiresAuth && !user) {
-        return next('/login');
+        return next('/');
     }
 
     if (user) {
         if (
-            (to.path === '/login' || to.path === '/register' ||
+            (to.path === '/' || to.path === '/register' ||
             to.path === '/userlist' || to.path === '/rolelist' ||
             to.path === '/createuser' || to.path === '/createrole' ||
             to.path === '/createfeature' ) && user.id !== 1
         ) {
-            // Redirect non-admin users away from login, register, or userlist pages
+
             return next('/modulepermission');
         } else if (
-            (to.path === '/login' || to.path === '/register' || to.path === '/modulepermission') &&
+            (to.path === '/' || to.path === '/register' || to.path === '/modulepermission') &&
             user.id === 1
         ) {
-            // Redirect admin users (id === 1) to userlist
+
             return next('/userlist');
         }
     }
 
-    // Allow navigation for all other cases
+
     next();
 });
 

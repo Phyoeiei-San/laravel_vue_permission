@@ -23,7 +23,7 @@ class FeatureController extends Controller
         $rolefeatures = $features->map(function ($feature) {
             return [
                 'name' => $feature->name,
-                'create' => $feature->id * 4 - 3, // Assign permission IDs dynamically
+                'create' => $feature->id * 4 - 3,
                 'view' => $feature->id * 4 - 2,
                 'update' => $feature->id * 4 - 1,
                 'delete' => $feature->id * 4,
@@ -32,12 +32,6 @@ class FeatureController extends Controller
 
         return response()->json(['rolefeatures' => $rolefeatures]);
     }
-    // public function feature_permission()
-    // {
-    //     $features = Feature::with('permissions')->get();
-
-    //     return response()->json(['features' => $features], 200);
-    // }
 
     /**
      * Show the form for creating a new resource.
@@ -64,13 +58,13 @@ class FeatureController extends Controller
 
     $userRoleId = $user->role_id;
 
-    // Fetch permissions based on the user's role_id
+
     $permissions = RolePermission::where('role_id', $userRoleId)
-        ->with('permission.feature') // Load the permission and its associated feature
+        ->with('permission.feature')
         ->get()
-        ->groupBy('permission.feature.name') // Group permissions by feature name
+        ->groupBy('permission.feature.name')
         ->map(function ($group) {
-            return $group->pluck('permission.name'); // Extract permission names
+            return $group->pluck('permission.name');
         });
 
     $modules = $permissions->map(function ($permissions, $featureName) {
@@ -80,7 +74,7 @@ class FeatureController extends Controller
         ];
     })->values();
 
-    $roleName = $user->role ? $user->role->name : 'No Role Assigned'; // Retrieve role name
+    $roleName = $user->role ? $user->role->name : 'No Role Assigned';
 
     return response()->json(
         ['modules' => $modules,
@@ -96,18 +90,18 @@ class FeatureController extends Controller
         'name' => 'required|string|max:255',
     ]);
 
-    // Create the new feature
+
     $feature = new Feature();
     $feature->name = $validated['name'];
     $feature->save();
 
-    // Create the permissions associated with the feature
+
     $permissions = [
         'Create', 'View', 'Update', 'Delete'
     ];
 
     foreach ($permissions as $permission) {
-        // Create each permission
+
         $feature->permissions()->create([
             'name' => $permission,
         ]);

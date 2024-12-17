@@ -16,9 +16,9 @@
           </button>
         </div>
 
-        <!-- Body Section -->
+
         <div class="card-body">
-          <!-- Table of Modules and Permissions -->
+
           <div class="table-responsive">
             <table class="table table-bordered table-hover align-middle">
               <thead class="table-primary text-center">
@@ -57,9 +57,9 @@
     name: "ModulePermission",
     data() {
       return {
-        modules: [], // Holds modules and permissions
-        userName: "", // Holds authenticated user's name
-        userRole: "", // Holds authenticated user's role
+        modules: [],
+        userName: "",
+        userRole: "",
       };
     },
     methods: {
@@ -75,23 +75,23 @@
           );
 
           localStorage.removeItem("auth_token");
-          this.$router.push("/login");
+          this.$router.push("/");
         } catch (error) {
           console.error("Logout failed:", error);
         }
       },
       async fetchModules() {
         try {
-          const token = localStorage.getItem("auth_token"); // Retrieve token from localStorage
+          const token = localStorage.getItem("auth_token");
           const response = await axios.get("http://127.0.0.1:8000/api/modules", {
             headers: {
-              Authorization: `Bearer ${token}`, // Add Authorization header
+              Authorization: `Bearer ${token}`,
             },
           });
 
-          this.modules = response.data.modules; // Assign modules to state
-          this.userName = response.data.user.name; // Assign authenticated user's name to state
-          this.userRole = response.data.role_name; // Assign authenticated user's role name to state
+          this.modules = response.data.modules;
+          this.userName = response.data.user.name;
+          this.userRole = response.data.role_name;
         } catch (error) {
           console.error("Error fetching modules:", error.response?.data || error);
           alert("Failed to fetch modules. Please ensure you are logged in.");
@@ -99,7 +99,7 @@
       },
     },
     mounted() {
-      this.fetchModules(); // Fetch modules on component mount
+      this.fetchModules();
     },
   };
   </script>

@@ -32,7 +32,7 @@ class UserController extends Controller
 
     public function roles()
     {
-        $roles = Role::all(); // Assuming Role is your roles table model
+        $roles = Role::all(); 
         return response()->json(['roles' => $roles], 200);
     }
     /**
@@ -40,16 +40,16 @@ class UserController extends Controller
      */
     public function store(Request $request)
 {
-    // Validate input
+
     $validated = $request->validate([
         'name' => 'required|string|max:255',
-        'email' => 'required|email|unique:users,email|unique:user_roles,email', // Ensure email is unique in both tables
+        'email' => 'required|email|unique:users,email|unique:user_roles,email',
         'address' => 'nullable|string',
         'phone_no' => 'required|string|max:15',
         'role_id' => 'required|exists:roles,id',
     ]);
 
-    // Save data in user_roles table
+
     $userRole = new UserRole();
     $userRole->name = $validated['name'];
     $userRole->email = $validated['email'];
@@ -58,16 +58,15 @@ class UserController extends Controller
     $userRole->role_id = $validated['role_id'];
     $userRole->save();
 
-    // Save data in users table
+
     $user = new User();
     $user->name = $validated['name'];
     $user->email = $validated['email'];
     $user->role_id = $validated['role_id'];
-    // $user->password = $userRole->id === 1 ? bcrypt('admin_default_password') : bcrypt('default_password'); // Custom password logic
-    $user->password = $user->password ?? Hash::make('office12'); // Check if password is null
+    $user->password = $user->password ?? Hash::make('office12');
     $user->save();
 
-    // Return success response
+
     return response()->json(['message' => 'User and User Role created successfully'], 201);
 }
 

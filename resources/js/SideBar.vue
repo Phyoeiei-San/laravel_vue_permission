@@ -169,7 +169,7 @@
                     });
 
                     localStorage.removeItem('auth_token');
-                    this.$router.push('/login');
+                    this.$router.push('/');
                 } catch (error) {
                     console.error('Logout failed:', error);
                 }
