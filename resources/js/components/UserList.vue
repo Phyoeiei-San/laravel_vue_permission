@@ -39,8 +39,8 @@
                     <th style="width: 10%;">Action</th>
                   </tr>
                 </thead>
-
-                <tbody v-if="users.length > 0">
+                <tbody v-if="users && users.length > 0">
+                <!-- <tbody v-if="users.length > 0"> -->
                   <tr v-for="(user,index) in users" :key="index">
                     <td>{{ index+1 }}</td>
                     <td>{{ user.name }}</td>
@@ -92,6 +92,7 @@
   <script>
   import axios from "axios";
   import SideBar from "../SideBar.vue";
+  import { mapState, mapActions, mapGetters } from "vuex/dist/vuex.cjs.js";
 
   export default {
     name: "UserList",
@@ -100,11 +101,18 @@
     },
     data() {
       return {
-        users: [],
-        searchKey: '',
+        searchKey: "",
       };
     },
+    computed: {
+      ...mapGetters(["StoresearchUser"]),
+        ...mapState(["users"])
+
+    },
+
     methods: {
+        ...mapActions(["fetchUsers"]),
+
         goToEdit(userId) {
             this.$router.push({
                 name: "EditUser",
@@ -112,35 +120,22 @@
                 query: { fromButton: true },
             });
             },
-            goToView(userId) {
+        goToView(userId) {
             this.$router.push({
                 name: "ViewUser",
                 params: { userId },
                 query: { fromButton: true },
             });
             },
-      async fetchUsers() {
-            try {
-            const token = localStorage.getItem('auth_token');
-            const response = await axios.get("http://127.0.0.1:8000/api/users",
 
-            {headers: { Authorization: `Bearer ${token}` },
-        });
-            this.users = response.data.users;
-            } catch (error) {
-            console.error(error);
-            }
-        },
       async deleteUser(userId) {
-            // Confirm deletion
+
             if (confirm("Are you sure you want to delete this user?")) {
             try {
-                // Send DELETE request
                 const response = await axios.delete(
                 `http://127.0.0.1:8000/api/users/${userId}`
                 );
                 alert("User deleted successfully!");
-                // Refresh the user list
                 this.fetchUsers();
             } catch (error) {
                 console.error("Error deleting user:", error);
@@ -151,20 +146,12 @@
             }
             }
         },
+        search() {
 
-        async search() {
-        const search = {
-          key: this.searchKey,
-        };
+            this.$store.dispatch("Search",this.searchKey);
+      },
 
-        try {
-          const response = await axios.post('http://127.0.0.1:8000/api/users/search', search);
-          console.log(response.data);
-          this.users = response.data.users; // Update posts with search results
-        } catch (error) {
-          console.error(error.response.data);
-        }
-        },
+
     },
     mounted() {
         this.fetchUsers();
@@ -176,7 +163,8 @@
             this.fetchUsers();
             }
         },
-        }
+        },
+
     };
   </script>
 

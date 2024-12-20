@@ -24,6 +24,7 @@
             <!-- Permissions Table -->
             <div class="form-group mb-4">
                 <h5>Permissions</h5>
+                <small class="text-danger" v-if="validation.permissionsStatus">At least one permission is required!</small>
             <table class="table table-bordered table-hover table-fluid w-100">
                 <thead>
                     <tr>
@@ -91,6 +92,8 @@
         <script>
         import axios from "axios";
         import SideBar from '../SideBar.vue';
+        import { mapActions, mapState } from "vuex/dist/vuex.cjs.js";
+
         export default {
             name: 'CreateRole',
                 components: {
@@ -103,13 +106,19 @@
                 permissions: [],
 
             },
-            features: [],
             validation : {
                 roleNameStatus: false,
+                permissionsStatus: false,
             }
             };
         },
+        computed:{
+        ...mapState(["features"]),
+        },
+
         methods: {
+            ...mapActions(["getFeatures"]),
+
             togglePermission(permissionId) {
             const index = this.role.permissions.indexOf(permissionId);
             if (index === -1) {
@@ -120,33 +129,21 @@
 
             },
 
-            async getFeatures() {
-        try {
-            const response = await axios.get("http://127.0.0.1:8000/api/features");
-            // console.log("Fetched features:", response.data);
-            this.features = response.data.features;
-        } catch (error) {
-            console.error("Error fetching features:", error);
-        }
-        },
-
-
         async createRole() {
-    this.validation.roleNameStatus = !this.role.name;
-    if (this.validation.roleNameStatus) {
+        this.validation.roleNameStatus = !this.role.name;
+        this.validation.permissionsStatus = this.role.permissions.length === 0;
+
+       if (this.validation.roleNameStatus || this.validation.permissionsStatus) {
         return;
     }
-
-    // Log role.permissions before sending to check the format
-    console.log(this.role.permissions);
 
     try {
         const response = await axios.post("http://127.0.0.1:8000/api/roles", this.role);
         alert(response.data.message);
         this.resetForm();
     } catch (error) {
-        console.error(error.response.data); // Check detailed error
-        alert("Please Select Permission!");
+        console.error(error.response.data);
+        alert("This role already exists.");
     }
 },
 

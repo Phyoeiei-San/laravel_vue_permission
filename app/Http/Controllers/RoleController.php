@@ -38,22 +38,22 @@ class RoleController extends Controller
 
     public function store(Request $request)
     {
-        // Validate the incoming data
+
         $request->validate([
             'name' => 'required|string|unique:roles,name',
-            'permissions' => 'required|array', // Validate that permissions is an array
-            'permissions.*' => 'exists:permissions,id', // Validate that each permission exists
+            'permissions' => 'required|array',
+            'permissions.*' => 'exists:permissions,id',
         ]);
 
-        // Create the role
+
         $role = Role::create([
             'name' => $request->name,
         ]);
 
-        // Attach the permissions to the role (saving into the role_permissions table)
-        $role->permissions()->attach($request->permissions); // Attach the permission IDs
 
-        // Return a success response
+        $role->permissions()->attach($request->permissions);
+
+        
         return response()->json(['message' => 'Role created successfully!'], 201);
     }
     /**

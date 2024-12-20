@@ -158,9 +158,12 @@
 
 <script>
     import axios from 'axios';
+
     export default {
         name:'SideBar',
+
         methods: {
+
             async logout() {
                 try {
                     const token = localStorage.getItem('auth_token');

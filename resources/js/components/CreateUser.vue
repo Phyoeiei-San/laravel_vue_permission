@@ -100,8 +100,10 @@
   </template>
 
   <script>
+
   import axios from "axios";
   import SideBar from "../SideBar.vue";
+  import { mapState, mapActions } from "vuex/dist/vuex.cjs.js";
 
   export default {
     name: "CreateUser",
@@ -110,6 +112,7 @@
     },
     data() {
       return {
+
         user: {
           name: "",
           email: "",
@@ -117,7 +120,7 @@
          phone_no: "",
           role_id: "",
         },
-        roles: [],
+        // roles: [],
         validation: {
           nameStatus: false,
           emailStatus: false,
@@ -127,20 +130,16 @@
         },
       };
     },
-    mounted() {
-      this.fetchRoles();
+
+    computed: {
+        ...mapState(["roles"])
+
     },
+
+
     methods: {
-      async fetchRoles() {
-        try {
-          const response = await axios.get("http://127.0.0.1:8000/api/roles");
-          this.roles = response.data.roles;
-        } catch (error) {
-          console.error("Error fetching roles:", error);
-        }
-      },
+        ...mapActions(["fetchRoles"]),
       validateRole() {
-      // Check if a role is selected
       this.validation.roleStatus = this.user.role_id === "";
     },
       async saveUser() {
@@ -178,6 +177,9 @@
 
       }
       },
+    },
+    mounted() {
+      this.fetchRoles();
     },
   };
   </script>

@@ -45,7 +45,7 @@ class FeatureController extends Controller
 
     public function getModules(Request $request)
 {
-    // Check if the user is authenticated
+
     $user = $request->user();
 
     if (!$user) {
@@ -87,7 +87,7 @@ class FeatureController extends Controller
     public function store(Request $request)
 {
     $validated = $request->validate([
-        'name' => 'required|string|max:255',
+        'name' => 'required|string|unique:features,name|max:255',
     ]);
 
 

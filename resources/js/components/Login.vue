@@ -73,7 +73,7 @@
     },
     methods: {
       async login() {
-        // Validate input fields
+
         this.validation.emailStatus = !this.email;
         this.validation.passwordStatus = !this.password;
         if (this.validation.emailStatus || this.validation.passwordStatus) {
@@ -86,22 +86,19 @@
             password: this.password,
           });
 
-          // Save the authentication token to localStorage
           const token = response.data.token;
           localStorage.setItem("auth_token", token);
 
-          // Extract the user's ID
           const userId = response.data.user.id;
 
-          // Display success message
+
           this.message.text = "Login successful!";
           this.message.type = "success";
 
-          // Clear the fields
+
           this.email = "";
           this.password = "";
 
-          // Redirect based on user ID
           setTimeout(() => {
             if (userId === 1) {
               this.$router.push("/userlist");
@@ -111,7 +108,6 @@
           }, 1500);
         } catch (error) {
           console.error("Login failed:", error);
-
 
           this.message.text = "Login failed. Please check your credentials.";
           this.message.type = "error";

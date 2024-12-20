@@ -140,7 +140,7 @@ async function fetchUser() {
                 Authorization: `Bearer ${token}`,
             },
         });
-        console.log('User fetched successfully:', response.data);
+        // console.log('User fetched successfully:', response.data);
         return response.data;
     } catch (error) {
         console.error('Failed to fetch user:', error.response?.data || error.message);
@@ -157,7 +157,7 @@ router.beforeEach(async (to, from, next) => {
         console.log('Token:', token);
         try {
             user = await fetchUser(); // Fetch user details if token exists
-            console.log('User:', user);
+            // console.log('User:', user);
         } catch (error) {
             console.error("Error fetching user:", error);
             // Handle token expiry or fetch failure here, e.g., clearing token
@@ -191,9 +191,6 @@ router.beforeEach(async (to, from, next) => {
 
     next();
 });
-
-
-
 
 
 export default router;

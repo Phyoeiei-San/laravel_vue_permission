@@ -19,7 +19,7 @@
                     id="roleSelect"
                     class="form-select"
                     v-model="selectedRoleId"
-                    @change="fetchRolePermissions"
+                    @change="fetchPermissions"
                   >
                     <option value="" disabled>Select a role</option>
                     <option v-for="role in roles" :key="role.id" :value="role.id">
@@ -86,15 +86,6 @@
                     Cancel
                   </button>
                 </div>
-                <!-- Display Selected Permissions (Debugging/Display) -->
-                <!-- <div v-if="selectedPermissions.length > 0">
-                  <h5>Selected Permissions:</h5>
-                  <ul>
-                    <li v-for="permission in selectedPermissions" :key="permission">
-                      {{ permission }}
-                    </li>
-                  </ul>
-                </div> -->
               </form>
             </div>
           </div>
@@ -107,6 +98,7 @@
 <script>
 import axios from "axios";
 import SideBar from "../SideBar.vue";
+import { mapActions, mapState, mapGetters } from "vuex/dist/vuex.cjs.js";
 
 export default {
   name: "RoleList",
@@ -115,62 +107,26 @@ export default {
   },
   data() {
   return {
-    roles: [], // Roles fetched from the database
     selectedRoleId: "",
-    selectedPermissions: [], // Permissions for the selected role
-    rolefeatures: [], // Modules fetched dynamically
+
   };
 },
+    computed:{
+        ...mapState(["roles","rolefeatures","selectedPermissions"]),
+        ...mapGetters( ["selectedPermissions"]),
+        },
 
   methods: {
-    // Fetch roles from the API
-    async fetchRoles() {
-      try {
-        const response = await axios.get("http://127.0.0.1:8000/api/roles");
-        this.roles = response.data.roles;
-      } catch (error) {
-        console.error("Error fetching roles:", error);
-      }
-    },
+    ...mapActions(["fetchRoles", "fetchModules"]),
 
-    // Fetch features from the API
-    async fetchModules() {
-  try {
-    const response = await axios.get("http://127.0.0.1:8000/api/rolefeatures");
-    this.rolefeatures = response.data.rolefeatures;
-  } catch (error) {
-    console.error("Error fetching modules:", error);
-  }
-},
+    fetchPermissions() {
+    this.$store.dispatch("fetchRolePermissions", this.selectedRoleId);
+  },
 
-    // Fetch permissions for the selected role
-    async fetchRolePermissions() {
-      if (!this.selectedRoleId) return;
-
-      try {
-        const response = await axios.get(
-          `http://127.0.0.1:8000/api/roles/${this.selectedRoleId}/permissions`
-        );
-        console.log("Fetched Permissions for Role:", response.data.permissions);
-
-        // Update selectedPermissions based on the fetched role permissions
-        this.selectedPermissions = response.data.permissions.map(
-          (permission) => permission.id
-        );
-
-        // Log permissions to console for debugging
-        console.log("Selected Permissions:", this.selectedPermissions);
-      } catch (error) {
-        console.error("Error fetching role permissions:", error);
-      }
-    },
-
-    // Check if the permission exists in the selected permissions
     hasPermission(permissionId) {
       return this.selectedPermissions.includes(permissionId);
     },
 
-    // Toggle the permission for add/remove
     togglePermission(permissionId) {
       const index = this.selectedPermissions.indexOf(permissionId);
       if (index === -1) {
@@ -181,7 +137,6 @@ export default {
       console.log("Updated Permissions:", this.selectedPermissions);
     },
 
-    // Save the updated permissions
     async savePermissions() {
       if (!this.selectedRoleId) {
         alert("Please select a role!");
@@ -199,15 +154,14 @@ export default {
       }
     },
 
-    // Reset the form
     resetForm() {
       this.selectedRoleId = null;
       this.selectedPermissions = [];
     },
   },
   mounted() {
-    this.fetchRoles(); // Fetch roles on mount
-    this.fetchModules(); // Fetch features on mount
+    this.fetchRoles();
+    this.fetchModules();
   },
 };
 </script>

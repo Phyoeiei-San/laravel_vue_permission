@@ -62,7 +62,9 @@
         userRole: "",
       };
     },
+
     methods: {
+
       async logout() {
         try {
           const token = localStorage.getItem("auth_token");
@@ -80,6 +82,7 @@
           console.error("Logout failed:", error);
         }
       },
+
       async fetchModules() {
         try {
           const token = localStorage.getItem("auth_token");

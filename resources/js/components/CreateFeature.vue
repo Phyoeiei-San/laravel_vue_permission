@@ -86,6 +86,7 @@
 <script>
 import axios from "axios";
 import SideBar from "../SideBar.vue";
+import { mapActions, mapState } from "vuex/dist/vuex.cjs.js";
 
 export default {
   name: "CreateFeature",
@@ -98,14 +99,18 @@ export default {
         id: null,
         name: "",
       },
-      features: [],
       editMode: false,
       validation: {
         nameStatus: false,
       },
     };
   },
+  computed:{
+        ...mapState(["features"]),
+        },
   methods: {
+    ...mapActions(["getFeatures"]),
+
     async saveModule() {
       this.validation.nameStatus = !this.feature.name;
 
@@ -117,10 +122,10 @@ export default {
         await axios.post("http://127.0.0.1:8000/api/features", this.feature);
         alert("Module created successfully!");
         this.resetForm();
-        this.getModules();
+        this.getFeatures();
       } catch (error) {
         console.error(error.response.data);
-        alert("Failed to create module.");
+        alert("This module already exits.");
       }
     },
     async updateModule() {
@@ -134,7 +139,7 @@ export default {
         await axios.put(`http://127.0.0.1:8000/api/features/${this.feature.id}`, this.feature);
         alert("Module updated successfully!");
         this.resetForm();
-        this.getModules();
+        this.getFeatures();
       } catch (error) {
         console.error(error.response.data);
         alert("Failed to update module.");
@@ -145,7 +150,7 @@ export default {
         try {
           await axios.delete(`http://127.0.0.1:8000/api/features/${id}`);
           alert("Module deleted successfully!");
-          this.getModules();
+          this.getFeatures();
         } catch (error) {
           console.error(error.response.data);
           alert("Failed to delete module.");
@@ -161,17 +166,10 @@ export default {
       this.feature = { id: null, name: "" };
       this.validation.nameStatus = false;
     },
-    async getModules() {
-      try {
-        const response = await axios.get("http://127.0.0.1:8000/api/features");
-        this.features = response.data.features;
-      } catch (error) {
-        console.error("Error fetching features:", error);
-      }
-    },
+
   },
   mounted() {
-    this.getModules();
+    this.getFeatures();
   },
 };
 </script>

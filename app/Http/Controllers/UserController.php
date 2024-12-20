@@ -32,7 +32,7 @@ class UserController extends Controller
 
     public function roles()
     {
-        $roles = Role::all(); 
+        $roles = Role::all();
         return response()->json(['roles' => $roles], 200);
     }
     /**
@@ -112,16 +112,16 @@ class UserController extends Controller
             ], 404);
         }
 
-        // Validate the input data
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $id,
+            'email' => 'required|email' ,
             'address' => 'nullable|string|max:255',
             'phone_no' => 'required|string|max:15',
             'role_id' => 'required|exists:roles,id',
         ]);
 
-        // If validation fails, return error response
+
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
@@ -130,7 +130,7 @@ class UserController extends Controller
             ], 422);
         }
 
-        // Update the user with validated data
+
         $user->update([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
@@ -139,7 +139,7 @@ class UserController extends Controller
             'role_id' => $request->input('role_id'),
         ]);
 
-        // Return the updated user data in the response
+      
         return response()->json([
             'success' => true,
             'message' => 'User updated successfully!',
