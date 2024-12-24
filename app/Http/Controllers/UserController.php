@@ -67,7 +67,7 @@ class UserController extends Controller
     $user->save();
 
 
-    return response()->json(['message' => 'User and User Role created successfully'], 201);
+    return response()->json(['message' => 'Staff and Staff Role created successfully'], 201);
 }
 
 
@@ -139,7 +139,7 @@ class UserController extends Controller
             'role_id' => $request->input('role_id'),
         ]);
 
-      
+
         return response()->json([
             'success' => true,
             'message' => 'User updated successfully!',
